@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-display: 'Syne', 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #08090d;
+    color: #f3f4f6;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+  }
+}
+
+/* Custom smooth scroll and glass utility */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom dark glow effects */
+.glow-indigo {
+  box-shadow: 0 0 50px -15px rgba(99, 102, 241, 0.25);
+}
+
+.glow-card {
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5), 0 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Hide scrollbar for clean horizontal tabs */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "BizPilot AI",
+  "description": "Assistant marketing intelligent pour petits entrepreneurs, commerçants et créateurs. Génération de Business Kit complet.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
