@@ -1,16 +1,35 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import type { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { GoogleGenAI, Type } from '@google/genai';
 import { generateLocalBusinessKit } from './src/data/mockTemplates.ts';
-import { BusinessInput, BusinessKit } from './src/types/index.ts';
+import type { BusinessInput, BusinessKit } from './src/types/index.ts';
 
 dotenv.config();
 
+// Sanitize Supabase URL to ensure it only contains the project base origin (no /rest/v1 or trailing slashes)
+for (const envVar of ['VITE_SUPABASE_URL', 'SUPABASE_URL']) {
+  const val = process.env[envVar];
+  if (val) {
+    try {
+      const trimmed = val.trim().replace(/^["']+|["']+$/g, '');
+      const withProto = trimmed.startsWith('http://') || trimmed.startsWith('https://') ? trimmed : `https://${trimmed}`;
+      process.env[envVar] = new URL(withProto).origin;
+    } catch {
+      process.env[envVar] = val
+        .trim()
+        .replace(/\/rest\/v1\/?$/i, '')
+        .replace(/\/auth\/v1\/?$/i, '')
+        .replace(/\/+$/, '');
+    }
+  }
+}
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
-const port = 3000;
+const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
 app.use(express.json({ limit: '1mb' }));
 

@@ -123,8 +123,29 @@ export interface UserProfile {
   email: string;
   name: string;
   businessName?: string;
+  businessType?: string;
   plan: 'free' | 'pro' | 'business';
   createdAt: string;
+}
+
+export interface SupabaseProfile {
+  id: string;
+  full_name: string | null;
+  email: string | null;
+  business_name: string | null;
+  business_type: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ContentGenerationRecord {
+  id: string;
+  user_id: string;
+  content_type: string;
+  business_name: string;
+  prompt: string;
+  generated_content: string; // JSON serialized BusinessKit
+  created_at: string;
 }
 
 export type PageView =
@@ -135,4 +156,6 @@ export type PageView =
   | 'about'
   | 'dashboard'
   | 'login'
-  | 'register';
+  | 'register'
+  | 'forgot-password'
+  | 'reset-password';

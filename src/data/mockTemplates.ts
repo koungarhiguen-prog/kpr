@@ -1,4 +1,4 @@
-import {
+import type {
   BusinessInput,
   BusinessKit,
   PostItem,
@@ -9,7 +9,7 @@ import {
   CalendarDay,
   PromoOffer,
   AdCopy,
-} from '../types';
+} from '../types/index.ts';
 
 interface ActivityContext {
   vocabulary: string[];

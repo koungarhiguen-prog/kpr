@@ -10,6 +10,7 @@
     font-family: var(--font-sans);
     background-color: #08090d;
     color: #f3f4f6;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, .font-display {
@@ -29,6 +30,54 @@ html {
 
 .glow-card {
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5), 0 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.glow-violet {
+  box-shadow: 0 0 40px -10px rgba(139, 92, 246, 0.3);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 30px -10px rgba(16, 185, 129, 0.25);
+}
+
+/* Subtle Shimmer Effect */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.animate-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  animation: shimmer 3s infinite;
+}
+
+/* Floating animation */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+@keyframes floatReverse {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(8px); }
+}
+
+.animate-float-reverse {
+  animation: floatReverse 6s ease-in-out infinite;
 }
 
 /* Hide scrollbar for clean horizontal tabs */
