@@ -365,7 +365,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({
             <select
               value={formData.activity}
               onChange={(e) => setFormData({ ...formData, activity: e.target.value as BusinessActivity })}
-              className="w-full h-11 px-3.5 rounded-xl bg-neutral-900 border border-white/10 text-white text-sm focus:outline-none focus:border-indigo-500 cursor-pointer transition-colors"
+              className="w-full h-11 px-3.5 rounded-xl bg-neutral-900 border border-white/10 text-white text-base sm:text-sm focus:outline-none focus:border-indigo-500 cursor-pointer transition-colors"
             >
               {ACTIVITIES.map((act) => (
                 <option key={act} value={act}>
@@ -387,7 +387,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({
                 onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
                 placeholder="Ex : Mama Food, Studio 242..."
                 required
-                className="w-full h-11 px-3.5 rounded-xl bg-neutral-900 border border-white/10 text-white text-sm placeholder:text-neutral-600 focus:outline-none focus:border-indigo-500 transition-colors"
+                className="w-full h-11 px-3.5 rounded-xl bg-neutral-900 border border-white/10 text-white text-base sm:text-sm placeholder:text-neutral-600 focus:outline-none focus:border-indigo-500 transition-colors"
               />
             </div>
 
@@ -402,7 +402,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({
                 onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                 placeholder="Ex : Pointe-Noire, Abidjan, Dakar..."
                 required
-                className="w-full h-11 px-3.5 rounded-xl bg-neutral-900 border border-white/10 text-white text-sm placeholder:text-neutral-600 focus:outline-none focus:border-indigo-500 transition-colors"
+                className="w-full h-11 px-3.5 rounded-xl bg-neutral-900 border border-white/10 text-white text-base sm:text-sm placeholder:text-neutral-600 focus:outline-none focus:border-indigo-500 transition-colors"
               />
             </div>
           </div>
@@ -418,7 +418,7 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Que vends-tu exactement ? Quels sont tes points forts ?"
-              className="w-full p-3.5 rounded-xl bg-neutral-900 border border-white/10 text-white text-sm placeholder:text-neutral-600 focus:outline-none focus:border-indigo-500 resize-none transition-colors"
+              className="w-full p-3.5 rounded-xl bg-neutral-900 border border-white/10 text-white text-base sm:text-sm placeholder:text-neutral-600 focus:outline-none focus:border-indigo-500 resize-none transition-colors"
             />
           </div>
 

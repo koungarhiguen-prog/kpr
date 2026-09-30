@@ -83,7 +83,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
       {/* 1. HERO SECTION */}
       <section className="relative pt-10 sm:pt-16 px-4 sm:px-6 max-w-6xl mx-auto text-center space-y-8">
         {/* Small animated badge */}
-        <ScrollReveal direction="down" delay={0.1} once={false}>
+        <ScrollReveal direction="down" delay={0.1} once={true}>
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-indigo-400 shadow-sm backdrop-blur-md">
             <Sparkles className="w-3.5 h-3.5 text-indigo-400 animate-spin" style={{ animationDuration: '6s' }} />
             <span>AI MARKETING ASSISTANT</span>
@@ -91,30 +91,28 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
         </ScrollReveal>
 
         {/* Grand Titre avec effet de composition générative mot-par-mot */}
-        <div className="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold text-white tracking-tight leading-[1.15] max-w-4xl mx-auto">
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-extrabold text-white tracking-tight leading-[1.2] sm:leading-[1.15] max-w-4xl mx-auto px-1">
           <GenerativeWords
             text="Ton business mérite du contenu."
-            once={false}
             delay={0.15}
           />{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-violet-300 to-indigo-200">
+          <span className="block sm:inline sm:ml-2 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-violet-300 to-indigo-200">
             <GenerativeWords
-              text="BizPilot le crée pour toi."
-              once={false}
+              text="Créé pour toi."
               delay={0.35}
             />
           </span>
-        </div>
+        </h1>
 
         {/* Sous-titre avec matérialisation au scroll */}
-        <ScrollReveal direction="up" delay={0.3} once={false}>
+        <ScrollReveal direction="up" delay={0.3} once={true}>
           <p className="text-base sm:text-xl text-neutral-300 max-w-2xl mx-auto font-normal leading-relaxed">
             Décris ton activité. Obtiens des idées de contenu, des captions, des publicités et des messages clients en quelques secondes.
           </p>
         </ScrollReveal>
 
         {/* Buttons CTA */}
-        <ScrollReveal direction="up" delay={0.4} once={false}>
+        <ScrollReveal direction="up" delay={0.4} once={true}>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <motion.button
               whileHover={{ scale: 1.03 }}
@@ -138,7 +136,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
         </ScrollReveal>
 
         {/* Live dynamic metrics strip */}
-        <ScrollReveal direction="up" delay={0.45} once={false}>
+        <ScrollReveal direction="up" delay={0.45} once={true}>
           <div className="pt-2 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-neutral-400">
             <span className="flex items-center gap-1.5">
               <Zap className="w-3.5 h-3.5 text-amber-400" />
@@ -158,30 +156,30 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
         </ScrollReveal>
 
         {/* Visual Interface Showcase with Generative Scanner effect */}
-        <ScrollReveal direction="scale" delay={0.5} once={false} className="pt-6">
+        <ScrollReveal direction="scale" delay={0.5} once={true} className="pt-6">
           <HeroShowcase />
         </ScrollReveal>
       </section>
 
       {/* 2. SECTION PROBLÈME (Générée dynamiquement au scroll) */}
       <section className="px-4 sm:px-6 max-w-6xl mx-auto">
-        <ScrollReveal direction="up" once={false} amount={0.15}>
+        <ScrollReveal direction="up" once={true} amount={0.15}>
           <div className="rounded-3xl p-8 sm:p-12 bg-gradient-to-b from-[#0f111a] to-[#0a0b10] border border-white/8 space-y-12 shadow-2xl relative overflow-hidden">
             {/* Ambient decorative glow */}
             <div className="absolute -top-24 -right-24 w-60 h-60 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
 
             <div className="text-center space-y-3 max-w-2xl mx-auto">
-              <ScrollReveal direction="down" delay={0.1} once={false}>
+              <ScrollReveal direction="down" delay={0.1} once={true}>
                 <span className="text-xs font-semibold tracking-wider text-rose-400 uppercase">
                   Le défi quotidien de l'entrepreneur
                 </span>
               </ScrollReveal>
 
               <h2 className="text-2xl sm:text-4xl font-display font-bold text-white tracking-tight">
-                <GenerativeWords text="Tu ne sais jamais quoi publier ?" once={false} delay={0.2} />
+                <GenerativeWords text="Tu ne sais jamais quoi publier ?" once={true} delay={0.2} />
               </h2>
 
-              <ScrollReveal direction="up" delay={0.25} once={false}>
+              <ScrollReveal direction="up" delay={0.25} once={true}>
                 <p className="text-sm sm:text-base text-neutral-400">
                   Avoir un bon produit ou un bon service ne suffit plus : il faut être visible chaque jour.
                 </p>
@@ -191,7 +189,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
             {/* 3 Cartes Problèmes révélées avec faisceau laser génératif */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Problème 1 */}
-              <GenerativeCard delay={0.1} once={false}>
+              <GenerativeCard delay={0.1} once={true}>
                 <div className="rounded-2xl p-6 bg-neutral-900/70 border border-white/5 space-y-4 hover:border-rose-500/30 transition-all h-full flex flex-col justify-between">
                   <div className="space-y-4">
                     <div className="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
@@ -209,7 +207,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
               </GenerativeCard>
 
               {/* Problème 2 */}
-              <GenerativeCard delay={0.25} once={false}>
+              <GenerativeCard delay={0.25} once={true}>
                 <div className="rounded-2xl p-6 bg-neutral-900/70 border border-white/5 space-y-4 hover:border-amber-500/30 transition-all h-full flex flex-col justify-between">
                   <div className="space-y-4">
                     <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
@@ -227,7 +225,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
               </GenerativeCard>
 
               {/* Problème 3 */}
-              <GenerativeCard delay={0.4} once={false}>
+              <GenerativeCard delay={0.4} once={true}>
                 <div className="rounded-2xl p-6 bg-neutral-900/70 border border-white/5 space-y-4 hover:border-indigo-500/30 transition-all h-full flex flex-col justify-between">
                   <div className="space-y-4">
                     <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
@@ -246,12 +244,12 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
             </div>
 
             {/* Statement box qui se matérialise */}
-            <ScrollReveal direction="scale" delay={0.5} once={false} className="text-center pt-4">
+            <ScrollReveal direction="scale" delay={0.5} once={true} className="text-center pt-4">
               <div className="inline-block p-4 sm:p-5 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 glow-indigo">
                 <p className="text-base sm:text-xl font-bold text-indigo-200">
                   <GenerativeWords
                     text="BizPilot transforme ton activité en contenu prêt à utiliser."
-                    once={false}
+                    once={true}
                     delay={0.2}
                   />
                 </p>
@@ -264,17 +262,17 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
       {/* 3. SECTION COMMENT ÇA MARCHE (Révélation pas-à-pas) */}
       <section id="how-it-works" className="px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
         <div className="text-center space-y-3 max-w-2xl mx-auto">
-          <ScrollReveal direction="down" once={false}>
+          <ScrollReveal direction="down" once={true}>
             <span className="text-xs font-semibold tracking-wider text-indigo-400 uppercase">
               Simple & Rapide
             </span>
           </ScrollReveal>
 
           <h2 className="text-2xl sm:text-4xl font-display font-bold text-white tracking-tight">
-            <GenerativeWords text="Comment ça marche ?" once={false} delay={0.15} />
+            <GenerativeWords text="Comment ça marche ?" once={true} delay={0.15} />
           </h2>
 
-          <ScrollReveal direction="up" delay={0.2} once={false}>
+          <ScrollReveal direction="up" delay={0.2} once={true}>
             <p className="text-sm sm:text-base text-neutral-400">
               Un processus en 3 étapes conçu pour te faire gagner des heures chaque semaine.
             </p>
@@ -284,7 +282,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
         {/* 3 Étapes matérialisées successivement */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Étape 1 */}
-          <GenerativeCard delay={0.1} once={false}>
+          <GenerativeCard delay={0.1} once={true}>
             <div className="rounded-2xl p-6 bg-neutral-900/50 border border-white/5 space-y-4 relative h-full hover:border-indigo-500/30 transition-all">
               <span className="text-4xl font-extrabold font-display text-indigo-400/80">01</span>
               <h3 className="text-xl font-bold text-white">Décris</h3>
@@ -295,7 +293,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
           </GenerativeCard>
 
           {/* Étape 2 */}
-          <GenerativeCard delay={0.25} once={false}>
+          <GenerativeCard delay={0.25} once={true}>
             <div className="rounded-2xl p-6 bg-neutral-900/50 border border-white/5 space-y-4 relative h-full hover:border-indigo-500/30 transition-all">
               <span className="text-4xl font-extrabold font-display text-indigo-400/80">02</span>
               <h3 className="text-xl font-bold text-white">Génère</h3>
@@ -306,7 +304,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
           </GenerativeCard>
 
           {/* Étape 3 */}
-          <GenerativeCard delay={0.4} once={false}>
+          <GenerativeCard delay={0.4} once={true}>
             <div className="rounded-2xl p-6 bg-neutral-900/50 border border-white/5 space-y-4 relative h-full hover:border-indigo-500/30 transition-all">
               <span className="text-4xl font-extrabold font-display text-indigo-400/80">03</span>
               <h3 className="text-xl font-bold text-white">Publie</h3>
@@ -320,10 +318,10 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
 
       {/* 4. SECTEURS ADAPTÉS AVEC APERÇU INTERACTIF DYNAMIQUE */}
       <section className="px-4 sm:px-6 max-w-6xl mx-auto space-y-8">
-        <ScrollReveal direction="up" once={false}>
+        <ScrollReveal direction="up" once={true}>
           <div className="text-center space-y-2">
             <h3 className="text-lg sm:text-xl font-bold text-white font-display">
-              <GenerativeWords text="Calibré pour chaque métier" once={false} />
+              <GenerativeWords text="Calibré pour chaque métier" once={true} />
             </h3>
             <p className="text-xs sm:text-sm text-neutral-400">
               Clique sur un secteur pour tester son accroche marketing en direct.
@@ -332,7 +330,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
         </ScrollReveal>
 
         {/* Sector clickable pills */}
-        <ScrollReveal direction="up" delay={0.2} once={false}>
+        <ScrollReveal direction="up" delay={0.2} once={true}>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
             {SECTOR_EXAMPLES.map((item, idx) => {
               const Icon = item.icon;
@@ -357,7 +355,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
         </ScrollReveal>
 
         {/* Dynamic Sector preview card */}
-        <GenerativeCard delay={0.3} once={false}>
+        <GenerativeCard delay={0.3} once={true}>
           <div className="rounded-2xl p-5 sm:p-6 bg-[#0e1019] border border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="space-y-1.5 text-center md:text-left">
               <span className="text-[11px] font-bold text-indigo-400 uppercase tracking-wide">
@@ -386,7 +384,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
 
       {/* 5. SECTION SOCIAL PROOF / POSITIONNEMENT HONNÊTE */}
       <section className="px-4 sm:px-6 max-w-6xl mx-auto">
-        <ScrollReveal direction="up" once={false}>
+        <ScrollReveal direction="up" once={true}>
           <div className="rounded-3xl p-8 sm:p-12 bg-neutral-900/30 border border-white/10 space-y-8 shadow-xl">
             <div className="max-w-2xl space-y-3">
               <span className="text-xs font-semibold tracking-wider text-emerald-400 uppercase">
@@ -395,7 +393,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
               <h2 className="text-2xl sm:text-3xl font-display font-bold text-white tracking-tight">
                 <GenerativeWords
                   text="Pensé pour les entrepreneurs qui veulent passer à l’action."
-                  once={false}
+                  once={true}
                 />
               </h2>
               <p className="text-sm text-neutral-300 leading-relaxed font-sans">
@@ -404,7 +402,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-2">
-              <GenerativeCard delay={0.1} once={false}>
+              <GenerativeCard delay={0.1} once={true}>
                 <div className="flex items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/5 h-full">
                   <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                   <div>
@@ -416,7 +414,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
                 </div>
               </GenerativeCard>
 
-              <GenerativeCard delay={0.2} once={false}>
+              <GenerativeCard delay={0.2} once={true}>
                 <div className="flex items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/5 h-full">
                   <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                   <div>
@@ -428,7 +426,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
                 </div>
               </GenerativeCard>
 
-              <GenerativeCard delay={0.3} once={false}>
+              <GenerativeCard delay={0.3} once={true}>
                 <div className="flex items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/5 h-full">
                   <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                   <div>
@@ -446,13 +444,13 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
 
       {/* 6. FINAL CALL TO ACTION (Laser glow reveal) */}
       <section className="px-4 sm:px-6 max-w-4xl mx-auto text-center space-y-6">
-        <ScrollReveal direction="scale" once={false}>
+        <ScrollReveal direction="scale" once={true}>
           <div className="rounded-3xl p-8 sm:p-12 bg-gradient-to-tr from-indigo-900/40 via-purple-900/20 to-neutral-900/40 border border-indigo-500/30 space-y-6 glow-indigo">
             <Zap className="w-8 h-8 text-indigo-400 mx-auto animate-bounce" style={{ animationDuration: '2.5s' }} />
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-white tracking-tight">
               <GenerativeWords
                 text="Prêt à booster la visibilité de ton business ?"
-                once={false}
+                once={true}
               />
             </h2>
             <p className="text-sm sm:text-base text-neutral-300 max-w-lg mx-auto font-sans">

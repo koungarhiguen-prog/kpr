@@ -15,24 +15,24 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   delay = 0,
   direction = 'up',
   className = '',
-  amount = 0.2,
-  once = false,
+  amount = 0.15,
+  once = true, // Default to true for smooth, rock-solid rendering on mobile and desktop
 }) => {
   const getInitial = () => {
     switch (direction) {
       case 'up':
-        return { opacity: 0, y: 50, filter: 'blur(10px)', scale: 0.96 };
+        return { opacity: 0, y: 30, filter: 'blur(6px)', scale: 0.98 };
       case 'down':
-        return { opacity: 0, y: -50, filter: 'blur(10px)', scale: 0.96 };
+        return { opacity: 0, y: -30, filter: 'blur(6px)', scale: 0.98 };
       case 'left':
-        return { opacity: 0, x: -60, filter: 'blur(8px)' };
+        return { opacity: 0, x: -40, filter: 'blur(6px)' };
       case 'right':
-        return { opacity: 0, x: 60, filter: 'blur(8px)' };
+        return { opacity: 0, x: 40, filter: 'blur(6px)' };
       case 'scale':
-        return { opacity: 0, scale: 0.88, filter: 'blur(12px)' };
+        return { opacity: 0, scale: 0.92, filter: 'blur(8px)' };
       case 'blur':
       default:
-        return { opacity: 0, filter: 'blur(16px)', y: 20 };
+        return { opacity: 0, filter: 'blur(10px)', y: 15 };
     }
   };
 
@@ -48,7 +48,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
       }}
       viewport={{ once, amount }}
       transition={{
-        duration: 0.7,
+        duration: 0.6,
         delay,
         ease: [0.16, 1, 0.3, 1], // Smooth settling curve
       }}
@@ -68,13 +68,14 @@ interface GenerativeWordsProps {
 }
 
 /**
- * Text that appears word-by-word as if being written by an AI as you scroll.
+ * Text that appears word-by-word with high fidelity across mobile, tablet, and desktop.
+ * Preserves text integrity and prevents Android/Chrome auto-translation glitching.
  */
 export const GenerativeWords: React.FC<GenerativeWordsProps> = ({
   text,
   className = '',
   wordClassName = '',
-  once = false,
+  once = true, // Default to true so text stays solid after reveal
   delay = 0,
 }) => {
   const words = text.split(' ');
@@ -83,17 +84,18 @@ export const GenerativeWords: React.FC<GenerativeWordsProps> = ({
     <motion.span
       initial="hidden"
       whileInView="visible"
-      viewport={{ once, amount: 0.3 }}
+      viewport={{ once, amount: 0.2 }}
       variants={{
         visible: {
           transition: {
-            staggerChildren: 0.04,
+            staggerChildren: 0.035,
             delayChildren: delay,
           },
         },
         hidden: {},
       }}
-      className={`inline-block ${className}`}
+      className={`inline ${className}`}
+      lang="fr"
     >
       {words.map((word, i) => (
         <motion.span
@@ -101,9 +103,9 @@ export const GenerativeWords: React.FC<GenerativeWordsProps> = ({
           variants={{
             hidden: {
               opacity: 0,
-              y: 20,
-              filter: 'blur(8px)',
-              scale: 0.9,
+              y: 14,
+              filter: 'blur(4px)',
+              scale: 0.94,
             },
             visible: {
               opacity: 1,
@@ -111,12 +113,13 @@ export const GenerativeWords: React.FC<GenerativeWordsProps> = ({
               filter: 'blur(0px)',
               scale: 1,
               transition: {
-                duration: 0.45,
+                duration: 0.4,
                 ease: [0.16, 1, 0.3, 1],
               },
             },
           }}
-          className={`inline-block mr-[0.25em] ${wordClassName}`}
+          className={`inline-block mr-[0.25em] notranslate ${wordClassName}`}
+          translate="no"
         >
           {word}
         </motion.span>
@@ -139,15 +142,15 @@ export const GenerativeCard: React.FC<GenerativeCardProps> = ({
   children,
   className = '',
   delay = 0,
-  once = false,
+  once = true,
 }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40, filter: 'blur(8px)', scale: 0.96 }}
+      initial={{ opacity: 0, y: 30, filter: 'blur(6px)', scale: 0.97 }}
       whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)', scale: 1 }}
-      viewport={{ once, amount: 0.2 }}
+      viewport={{ once, amount: 0.15 }}
       transition={{
-        duration: 0.65,
+        duration: 0.55,
         delay,
         ease: [0.16, 1, 0.3, 1],
       }}
@@ -157,13 +160,13 @@ export const GenerativeCard: React.FC<GenerativeCardProps> = ({
       <motion.div
         initial={{ top: '-100%', opacity: 0 }}
         whileInView={{ top: '150%', opacity: [0, 1, 1, 0] }}
-        viewport={{ once, amount: 0.2 }}
+        viewport={{ once, amount: 0.15 }}
         transition={{
-          duration: 1.2,
+          duration: 1.0,
           delay: delay + 0.1,
           ease: 'easeInOut',
         }}
-        className="absolute left-0 right-0 h-10 bg-gradient-to-b from-transparent via-indigo-500/25 to-transparent pointer-events-none z-20"
+        className="absolute left-0 right-0 h-8 bg-gradient-to-b from-transparent via-indigo-500/25 to-transparent pointer-events-none z-20"
       />
       {children}
     </motion.div>

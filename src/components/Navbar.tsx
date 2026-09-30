@@ -152,7 +152,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => handleNav('generator')}
-            className="px-3 py-1.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg cursor-pointer whitespace-nowrap"
+            className="px-3 py-1.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg cursor-pointer whitespace-nowrap shadow-sm"
           >
             Créer
           </motion.button>
