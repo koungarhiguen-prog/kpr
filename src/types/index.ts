@@ -32,6 +32,10 @@ export interface BusinessInput {
   city: string;
   goal: MarketingGoal;
   tone: BrandTone;
+  // V1.1 Nouveaux champs de personnalisation
+  mainOffer: string; // Produits ou services principaux (obligatoire)
+  targetAudience: string; // Clientèle cible (obligatoire)
+  differentiator?: string; // Ce qui vous différencie (facultatif)
 }
 
 export interface PostItem {

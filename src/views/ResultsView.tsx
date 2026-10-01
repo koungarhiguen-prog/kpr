@@ -190,6 +190,32 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
               <span aria-hidden="true" className="text-neutral-600">·</span>
               <span>Ton : {kit.input.tone}</span>
             </div>
+
+            {(kit.input.mainOffer || kit.input.targetAudience) && (
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-neutral-300 pt-1">
+                {kit.input.mainOffer && (
+                  <span>
+                    <strong className="text-indigo-300 font-medium">Offre :</strong> {kit.input.mainOffer}
+                  </span>
+                )}
+                {kit.input.targetAudience && (
+                  <>
+                    <span aria-hidden="true" className="text-neutral-600 hidden sm:inline">·</span>
+                    <span>
+                      <strong className="text-indigo-300 font-medium">Cible :</strong> {kit.input.targetAudience}
+                    </span>
+                  </>
+                )}
+                {kit.input.differentiator && (
+                  <>
+                    <span aria-hidden="true" className="text-neutral-600 hidden sm:inline">·</span>
+                    <span>
+                      <strong className="text-indigo-300 font-medium">Différence :</strong> {kit.input.differentiator}
+                    </span>
+                  </>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Quick Action Buttons */}

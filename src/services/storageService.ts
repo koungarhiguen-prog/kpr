@@ -15,6 +15,9 @@ const DEFAULT_DEMO_INPUT: BusinessInput = {
   city: 'Pointe-Noire',
   goal: 'Augmenter les ventes',
   tone: 'Dynamique',
+  mainOffer: 'Grillades au feu de bois, plats traditionnels du jour et formules midi express',
+  targetAudience: 'Employés de bureau le midi, familles et gourmands de Pointe-Noire',
+  differentiator: 'Cuisson authentique à la braise et service rapide en moins de 15 minutes',
 };
 
 export const storageService = {

@@ -17,6 +17,9 @@ import {
   Check,
   Zap,
   LogIn,
+  Package,
+  Users,
+  Sparkle,
 } from 'lucide-react';
 
 interface GeneratorViewProps {
@@ -67,6 +70,9 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({
     city: '',
     goal: 'Obtenir plus de clients',
     tone: 'Dynamique',
+    mainOffer: '',
+    targetAudience: '',
+    differentiator: '',
   });
 
   const [loading, setLoading] = useState(false);
@@ -76,7 +82,8 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({
 
   const steps = [
     'Analyse du secteur et de la concurrence locale...',
-    'Composition des 10 idées de posts & accroches...',
+    'Intégration de vos offres et de votre clientèle cible...',
+    'Composition des 10 idées de posts & accroches sur-mesure...',
     'Rédaction des 10 captions prêtes à copier...',
     'Scénarisation des 5 vidéos Reels & scripts TikTok...',
     'Formatage des messages clients WhatsApp...',
@@ -93,6 +100,14 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({
     }
     if (!formData.city.trim()) {
       setError('Veuillez préciser votre ville.');
+      return;
+    }
+    if (!formData.mainOffer.trim()) {
+      setError('Veuillez préciser vos produits ou services principaux.');
+      return;
+    }
+    if (!formData.targetAudience.trim()) {
+      setError('Veuillez indiquer votre clientèle cible.');
       return;
     }
 
@@ -152,6 +167,9 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({
         city: 'Pointe-Noire',
         goal: 'Augmenter les ventes',
         tone: 'Dynamique',
+        mainOffer: 'Grillades braisées, plats traditionnels du jour, formules midi express et boissons fraîches',
+        targetAudience: 'Employés de bureau le midi, familles et gourmands de Pointe-Noire',
+        differentiator: 'Cuisson authentique à la braise et service rapide en moins de 15 minutes',
       });
     } else if (type === 'barber') {
       setFormData({
@@ -161,6 +179,9 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({
         city: 'Abidjan',
         goal: 'Obtenir plus de clients',
         tone: 'Premium',
+        mainOffer: 'Dégradés américains, taille et sculpture de barbe, serviette chaude et soins capillaires',
+        targetAudience: 'Hommes actifs, jeunes professionnels et passionnés de style soigné à Abidjan',
+        differentiator: 'Finition au rasoir traditionnel, espace climatisé VIP et prise de rendez-vous fluide',
       });
     } else {
       setFormData({
@@ -170,6 +191,9 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({
         city: 'Dakar',
         goal: 'Développer Instagram',
         tone: 'Jeune',
+        mainOffer: 'Robes de soirée, ensembles casual chic, prêt-à-porter féminin et accessoires',
+        targetAudience: 'Femmes actives, étudiantes et passionnées de mode tendance à Dakar',
+        differentiator: 'Pièces exclusives en édition limitée et possibilité d’essayage à la livraison',
       });
     }
   };
@@ -405,6 +429,56 @@ export const GeneratorView: React.FC<GeneratorViewProps> = ({
                 className="w-full h-11 px-3.5 rounded-xl bg-neutral-900 border border-white/10 text-white text-base sm:text-sm placeholder:text-neutral-600 focus:outline-none focus:border-indigo-500 transition-colors"
               />
             </div>
+          </div>
+
+          {/* 1. Produits ou services principaux (Obligatoire) */}
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-neutral-300 flex items-center gap-1.5">
+              <Package className="w-3.5 h-3.5 text-indigo-400" />
+              <span>Produits ou services principaux</span> <span className="text-indigo-400">*</span>
+            </label>
+            <input
+              type="text"
+              value={formData.mainOffer}
+              onChange={(e) => setFormData({ ...formData, mainOffer: e.target.value })}
+              placeholder="Ex : création de sites web, maintenance informatique, réparation téléphone..."
+              required
+              className="w-full h-11 px-3.5 rounded-xl bg-neutral-900 border border-white/10 text-white text-base sm:text-sm placeholder:text-neutral-600 focus:outline-none focus:border-indigo-500 transition-colors"
+            />
+          </div>
+
+          {/* 2. Clientèle cible (Obligatoire) */}
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-neutral-300 flex items-center gap-1.5">
+              <Users className="w-3.5 h-3.5 text-indigo-400" />
+              <span>Clientèle cible</span> <span className="text-indigo-400">*</span>
+            </label>
+            <input
+              type="text"
+              value={formData.targetAudience}
+              onChange={(e) => setFormData({ ...formData, targetAudience: e.target.value })}
+              placeholder="Ex : particuliers, étudiants, petites entreprises, restaurants..."
+              required
+              className="w-full h-11 px-3.5 rounded-xl bg-neutral-900 border border-white/10 text-white text-base sm:text-sm placeholder:text-neutral-600 focus:outline-none focus:border-indigo-500 transition-colors"
+            />
+          </div>
+
+          {/* 3. Ce qui vous différencie (Facultatif) */}
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-neutral-300 flex items-center justify-between">
+              <span className="flex items-center gap-1.5">
+                <Sparkle className="w-3.5 h-3.5 text-indigo-400" />
+                <span>Ce qui vous différencie</span>
+              </span>
+              <span className="text-[11px] text-neutral-500 font-normal">Optionnel</span>
+            </label>
+            <input
+              type="text"
+              value={formData.differentiator || ''}
+              onChange={(e) => setFormData({ ...formData, differentiator: e.target.value })}
+              placeholder="Ex : rapidité, prix accessibles, accompagnement personnalisé..."
+              className="w-full h-11 px-3.5 rounded-xl bg-neutral-900 border border-white/10 text-white text-base sm:text-sm placeholder:text-neutral-600 focus:outline-none focus:border-indigo-500 transition-colors"
+            />
           </div>
 
           {/* Description */}

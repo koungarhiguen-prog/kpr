@@ -35,6 +35,15 @@ export function formatKitAsMarkdown(kit: BusinessKit): string {
 
   parts.push(`# BUSINESS KIT : ${kit.input.businessName.toUpperCase()}`);
   parts.push(`Activité : ${kit.input.activity} • Ville : ${kit.input.city}`);
+  if (kit.input.mainOffer) {
+    parts.push(`Produits/Services principaux : ${kit.input.mainOffer}`);
+  }
+  if (kit.input.targetAudience) {
+    parts.push(`Clientèle cible : ${kit.input.targetAudience}`);
+  }
+  if (kit.input.differentiator) {
+    parts.push(`Ce qui différencie : ${kit.input.differentiator}`);
+  }
   parts.push(`Objectif : ${kit.input.goal} • Ton : ${kit.input.tone}`);
   parts.push(`Généré le : ${new Date(kit.createdAt).toLocaleDateString('fr-FR')}`);
   parts.push(`\n---\n`);

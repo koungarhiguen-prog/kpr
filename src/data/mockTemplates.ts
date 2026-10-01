@@ -140,8 +140,9 @@ export const TONE_ADJECTIVES: Record<string, { vibe: string; ctaStyle: string; g
 };
 
 /**
- * Intelligent local template generator for BizPilot AI V1.
- * Combines business activity, city, name, tone, goals, and realistic marketing psychology.
+ * Intelligent template generator for BizPilot AI V1.1.
+ * Combines business activity, city, name, main offer, target audience, differentiator, tone, and goals.
+ * Strictly adheres to truthfulness: never hallucinates fake testimonials, fake ratings, or fake discounts.
  */
 export function generateLocalBusinessKit(input: BusinessInput): BusinessKit {
   const activityKey = ACTIVITY_DATABASE[input.activity] ? input.activity : 'Autre';
@@ -151,77 +152,83 @@ export function generateLocalBusinessKit(input: BusinessInput): BusinessKit {
   const city = input.city.trim() || 'votre ville';
   const goal = input.goal;
 
-  // 1. Generate 10 contextual posts
+  // V1.1 personalization parameters with safe fallbacks
+  const mainOffer = (input.mainOffer && input.mainOffer.trim()) || context.vocabulary[0] || 'nos prestations principales';
+  const targetAudience = (input.targetAudience && input.targetAudience.trim()) || context.targetAudience || 'nos clients de ' + city;
+  const differentiator = (input.differentiator && input.differentiator.trim()) || '';
+  const diffSentence = differentiator ? ` Notre atout distinctif : ${differentiator}.` : '';
+
+  // 1. Generate 10 contextual, strictly truthful posts
   const posts: PostItem[] = [
     {
       id: 1,
-      title: 'L’Histoire & La Vision',
-      idea: `Raconter la genèse de ${name} à ${city} et pourquoi vous avez choisi cette activité.`,
-      caption: `Pourquoi ${name} existe aujourd’hui à ${city} ?\n\nQuand nous avons lancé notre projet, nous avions un constat simple : ${context.painPoints[0]}.\n\nNotre mission chaque jour ? Vous apporter ${context.valueProps[0]} avec toute notre énergie et passion. Merci à tous ceux qui nous font confiance depuis le début !`,
-      cta: `👉 Et vous, depuis quand suivez-vous notre aventure ? Dites-le nous en commentaire !`,
+      title: 'L’Histoire & La Mission',
+      idea: `Expliquer pourquoi vous proposez ${mainOffer} à ${city} et à qui s'adresse votre savoir-faire.`,
+      caption: `Pourquoi ${name} existe aujourd’hui à ${city} ?\n\nNotre mission : proposer ${mainOffer} spécialement conçu pour répondre aux attentes de ${targetAudience}.${diffSentence}\n\nUn projet né d'une volonté simple : allier proximité, écoute et qualité au quotidien pour vous apporter une solution concrète.`,
+      cta: `👉 Vous avez un besoin ou une question ? Écrivez-nous en message privé pour en discuter !`,
     },
     {
       id: 2,
       title: 'Le Problème Résolu',
-      idea: `Aborder directement la douleur principale de vos clients : ${context.painPoints[0]}.`,
-      caption: `Marre de ${context.painPoints[0]} ?\n\nChez ${name}, nous avons conçu notre service précisément pour vous simplifier la vie. Plus besoin de stresser : on s'occupe de tout avec ${context.vocabulary[0]}.\n\nPassez nous voir à ${city} ou contactez-nous dès maintenant !`,
-      cta: `📲 Envoyez-nous un message WhatsApp pour régler ça en quelques minutes.`,
+      idea: `Montrer comment ${mainOffer} simplifie la vie de ${targetAudience}.`,
+      caption: `Vous cherchez une solution efficace pour ${mainOffer} à ${city} ?\n\nChez ${name}, nous savons que ${targetAudience} recherche avant tout la clarté, l'efficacité et la tranquillité d'esprit.${diffSentence}\n\nPrenez contact avec notre équipe dès aujourd'hui pour voir comment nous pouvons vous aider.`,
+      cta: `📲 Envoyez-nous un message WhatsApp pour obtenir vos renseignements en quelques minutes.`,
     },
     {
       id: 3,
-      title: 'Les Coulisses (Behind the scenes)',
-      idea: `Montrer l'envers du décor et la préparation minutieuse pour ${name}.`,
-      caption: `Ce que vous ne voyez jamais sur les photos… 🔍\n\nAvant que le résultat ne soit parfait, il y a des heures de préparation, de tri et de rigueur. Chez ${name}, chaque détail compte : ${context.vocabulary[1]} et ${context.vocabulary[2]}.\n\nC’est cette exigence qui fait notre différence à ${city}.`,
-      cta: `❤️ Likez si vous appréciez le travail fait avec passion !`,
+      title: 'Les Coulisses & La Méthode de Travail',
+      idea: `Présenter la rigueur et le soin apportés à ${mainOffer}.`,
+      caption: `Ce que vous ne voyez jamais sur une simple photo… 🔍\n\nChaque réalisation de ${mainOffer} demande du temps, de la méthode et une exigence constante. Chez ${name}, chaque détail compte pour satisfaire ${targetAudience}.\n\nC’est cette transparence et cette rigueur qui font notre différence à ${city}.`,
+      cta: `❤️ Likez si vous appréciez le travail soigné et transparent !`,
     },
     {
       id: 4,
-      title: 'Le Conseil d’Expert Gratuit',
-      idea: `Donner une astuce actionnable que vos abonnés peuvent appliquer immédiatement.`,
-      caption: `Le conseil gratuit du jour signé ${name} 💡 :\n\nPour éviter ${context.painPoints[1]}, pensez toujours à vérifier vos bases et privilégier ${context.vocabulary[0]}.\n\nGardez ce post en favori pour vous en souvenir plus tard !`,
+      title: 'Le Conseil Pratique Gratuit',
+      idea: `Donner un conseil utile et actionnable à ${targetAudience} concernant ${mainOffer}.`,
+      caption: `Le conseil pratique du jour signé ${name} 💡 :\n\nPour réussir au mieux votre projet concernant ${mainOffer}, prenez toujours le temps de bien formuler vos attentes et de privilégier un échange direct.\n\nGardez ce post en favori pour vous en souvenir plus tard !`,
       cta: `🔖 Enregistrez ce post pour le retrouver facilement.`,
     },
     {
       id: 5,
-      title: 'La Preuve & Témoignage Client',
-      idea: `Partager un retour client authentique et marquant.`,
-      caption: `« Franchement, je ne m'attendais pas à un résultat aussi propre ! » ⭐⭐⭐⭐⭐\n\nC’est le genre de message qui donne le sourire à toute l'équipe de ${name}. Quand un client vient nous voir à ${city} pour ${context.painPoints[2]} et repart avec ${context.valueProps[0]}, notre journée est réussie.`,
-      cta: `Envie de vivre la même expérience ? Contactez-nous en privé !`,
+      title: 'Preuve de Savoir-Faire & Retours Clients',
+      idea: `Inviter vos clients réels à partager leur retour et valoriser votre engagement qualité.`,
+      caption: `Chez ${name}, votre satisfaction et la qualité de nos prestations (${mainOffer}) sont notre priorité absolue à ${city}.\n\n💡 Idée pour votre publication : Vous avez déjà fait appel à nos services ? Votre véritable avis nous aide énormément ! Partagez votre expérience en commentaire ou par message WhatsApp pour nous aider à nous améliorer chaque jour.`,
+      cta: `👉 Écrivez-nous en privé pour toute question ou pour nous faire part de vos impressions !`,
     },
     {
       id: 6,
-      title: 'Mise en avant Produit / Prestation Star',
-      idea: `Présenter l'offre la plus demandée chez ${name}.`,
-      caption: `La star incontournable chez ${name} ⭐ :\n\nSi vous ne devez tester qu'une seule chose chez nous à ${city}, c'est celle-ci ! Pourquoi ? Parce qu'elle combine ${context.vocabulary[0]} et ${context.valueProps[1]}.\n\nUne expérience pensée pour ${context.targetAudience}.`,
+      title: 'Zoom sur l’Offre Principale',
+      idea: `Mettre en avant vos prestations clés (${mainOffer}) auprès de ${targetAudience}.`,
+      caption: `À la recherche de ${mainOffer} à ${city} ? ⭐\n\nVoici ce que nous vous garantissons chez ${name} :\n• Un accompagnement adapté à ${targetAudience}\n• Une réponse réactive et transparente${differentiator ? `\n• ${differentiator}` : ''}\n\nPrenez contact dès maintenant pour échanger sur votre demande.`,
       cta: `Discutez avec nous en DM pour connaître nos disponibilités cette semaine.`,
     },
     {
       id: 7,
-      title: 'Sondage & Interaction Communauté',
-      idea: `Poser une question pour booster les commentaires et l'algorithme.`,
-      caption: `Grande question pour nos clients de ${city} aujourd'hui 🗳️ :\n\nTeam A (${context.vocabulary[0]}) ou Team B (${context.vocabulary[1]}) ?\n\nChez ${name}, le débat est ouvert entre nous ! Donnez-nous votre avis tranché en commentaire 👇`,
+      title: 'Sondage & Échange Communauté',
+      idea: `Poser une question ouverte à ${targetAudience} pour encourager la discussion.`,
+      caption: `Petite question pour notre communauté de ${city} aujourd'hui 🗳️ :\n\nQuand vous avez besoin de ${mainOffer}, quel est le critère le plus important pour vous ?\n\nA) La réactivité et le professionnalisme\nB) Le conseil personnalisé et l'écoute\n\nChez ${name}, nous essayons de combiner les deux ! Donnez-nous votre avis ci-dessous 👇`,
       cta: `👇 Écrivez votre choix en commentaire !`,
     },
     {
       id: 8,
-      title: 'Offre Spéciale / Moment Fort',
-      idea: `Créer de l'urgence avec une proposition irrésistible.`,
-      caption: `Alerte bon plan à ${city} 🚨 !\n\nPour récompenser notre communauté, ${name} lance une offre exclusive : ${context.typicalOffers[0]}.\n\nAttention : réservé aux 10 premiers clients qui nous contactent aujourd'hui.`,
-      cta: `⚡ Tapez « PROMO » en message privé pour réserver avant rupture !`,
+      title: 'Prise de Contact & Découverte',
+      idea: `Faciliter le premier échange pour les membres de ${targetAudience} qui ne vous connaissent pas encore.`,
+      caption: `Vous découvrez ${name} pour la première fois à ${city} ? 👋\n\nQue vous ayez un besoin immédiat ou que vous souhaitiez simplement vous renseigner sur nos prestations (${mainOffer}), nous prenons le temps d'étudier votre demande avec soin et bienveillance.`,
+      cta: `⚡ Contactez-nous par message privé ou WhatsApp pour démarrer l'échange !`,
     },
     {
       id: 9,
       title: 'Mythe vs Réalité',
-      idea: `Démystifier une fausse croyance répandue dans le secteur ${input.activity}.`,
-      caption: `On entend souvent dire que… [Mythe] ❌\n\nLa réalité chez ${name} : [Réalité] ✅ !\n\nBeaucoup de personnes pensent que ${context.painPoints[0]} est inévitable. En réalité, avec une méthode adaptée et ${context.vocabulary[2]}, tout devient beaucoup plus simple.`,
-      cta: `Partagez ce post en story avec un ami qui a besoin de savoir ça !`,
+      idea: `Démystifier une idée reçue répandue sur ${mainOffer}.`,
+      caption: `On pense souvent que trouver un service sérieux pour ${mainOffer} à ${city} est compliqué... ❌\n\nLa réalité chez ${name} : avec une écoute attentive et une méthode claire, tout devient beaucoup plus simple et transparent ✅ !`,
+      cta: `Partagez ce post avec un ami ou un collègue qui a besoin de ce service !`,
     },
     {
       id: 10,
-      title: 'Le Rappel du Week-end / Proximité',
-      idea: `Donner rendez-vous pour la fin de semaine ou les jours d'ouverture.`,
-      caption: `Le week-end approche à ${city} ! 🎉\n\nAvez-vous pensé à réserver votre créneau chez ${name} ? Les places partent vite et nous voulons vous garantir ${context.valueProps[2]}.\n\nToute l'équipe vous attend avec le sourire !`,
-      cta: `📍 Rendez-vous chez ${name} à ${city}. Lien direct dans notre bio !`,
+      title: 'Rendez-vous de Proximité & Organisation',
+      idea: `Inviter ${targetAudience} à anticiper son projet ou sa commande pour la semaine.`,
+      caption: `La semaine s'organise chez ${name} à ${city} ! 📅\n\nPour vos besoins en ${mainOffer}, nous vous invitons à nous contacter dès maintenant pour fixer un créneau ou passer commande en toute sérénité.`,
+      cta: `📍 Contactez ${name} à ${city}. Lien direct dans notre bio !`,
     },
   ];
 
@@ -230,62 +237,62 @@ export function generateLocalBusinessKit(input: BusinessInput): BusinessKit {
     {
       id: 1,
       theme: 'Découverte',
-      text: `Une seule adresse pour retrouver ${context.vocabulary[0]} à ${city} : bienvenue chez ${name}. On a hâte de vous faire vivre cette expérience !`,
-      hashtags: [`#${name.replace(/\s+/g, '')}`, `#${city.replace(/\s+/g, '')}`, `#${input.activity.replace(/[\s/]+/g, '')}`, '#BonneAdresse', '#QualitéGarantie'],
+      text: `Une seule adresse pour retrouver ${mainOffer} à ${city} : bienvenue chez ${name}. Nous sommes ravis d'accompagner ${targetAudience} !`,
+      hashtags: [`#${name.replace(/\s+/g, '')}`, `#${city.replace(/\s+/g, '')}`, `#${input.activity.replace(/[\s/]+/g, '')}`, '#ServiceDeProximite', '#QualiteEtRigueur'],
     },
     {
       id: 2,
-      theme: 'Coup de cœur',
-      text: `Quand le souci du détail rencontre la passion du métier. Chez ${name}, on ne fait aucun compromis sur la qualité.`,
+      theme: 'Engagement Qualité',
+      text: `Quand le souci du détail rencontre la passion du métier. Chez ${name}, nous mettons notre savoir-faire au service de ${targetAudience}.`,
       hashtags: [`#${city.replace(/\s+/g, '')}`, '#PassionDuMétier', '#SatisfactionClient', '#SavoirFaire'],
     },
     {
       id: 3,
       theme: 'Motivation',
-      text: `Nouvelle semaine, nouveaux objectifs. Accordez-vous le meilleur avec ${name} à ${city}.`,
+      text: `Nouvelle semaine, nouveaux projets ! Avancez en toute confiance avec l'accompagnement de ${name} à ${city}.`,
       hashtags: ['#Motivation', '#NouvelleSemaine', `#${name.replace(/\s+/g, '')}`, '#Focus'],
     },
     {
       id: 4,
-      theme: 'Exclusivité',
-      text: `Parce que vous méritez un service à la hauteur de vos exigences. Découvrez notre sélection exclusive de la semaine.`,
-      hashtags: ['#Exclusif', '#HauteQualité', '#Tendance', `#${city.replace(/\s+/g, '')}`],
+      theme: 'Savoir-Faire',
+      text: `Des prestations pensées avec soin pour répondre aux besoins concrets de ${targetAudience}. Découvrez nos offres dès aujourd'hui chez ${name}.`,
+      hashtags: ['#SavoirFaire', '#Transparence', '#QualitéLocale', `#${city.replace(/\s+/g, '')}`],
     },
     {
       id: 5,
       theme: 'Solution Problème',
-      text: `Ne laissez plus ${context.painPoints[0]} gâcher vos journées. Venez chez ${name}, on règle ça ensemble !`,
-      hashtags: ['#AstuceDuJour', '#SolutionEfficace', '#ExpertiseLocale'],
+      text: `Besoin d'une solution fiable pour ${mainOffer} à ${city} ? Échangeons ensemble pour trouver la formule la plus adaptée.`,
+      hashtags: ['#SolutionSurMesure', '#ConseilPro', '#ExpertiseLocale'],
     },
     {
       id: 6,
-      theme: 'Urgence / Flash',
-      text: `Dernières disponibilités cette semaine chez ${name} à ${city} ! Ne tardez pas à réserver votre créneau.`,
-      hashtags: ['#DispoLimitée', '#RéservezVite', `#${city.replace(/\s+/g, '')}`],
+      theme: 'Disponibilités',
+      text: `Planning ouvert cette semaine chez ${name} à ${city} pour ${mainOffer}. Contactez-nous à l'avance pour réserver votre créneau.`,
+      hashtags: ['#PlanningOuvert', '#Organisation', `#${city.replace(/\s+/g, '')}`],
     },
     {
       id: 7,
       theme: 'Remerciement',
-      text: `Un immense MERCI à tous nos clients qui font vivre ${name} au quotidien. Vous êtes notre plus grande source d’inspiration !`,
-      hashtags: ['#Gratitude', '#MeilleursClients', '#TeamBizPilot', '#Proximité'],
+      text: `Un grand merci à toutes les personnes et entreprises qui nous font confiance au quotidien à ${city}. Votre satisfaction est notre moteur !`,
+      hashtags: ['#Gratitude', '#PartenairesDeConfiance', '#Proximite'],
     },
     {
       id: 8,
-      theme: 'Local Love',
-      text: `Fier d'entreprendre et de valoriser le savoir-faire local à ${city}. Soutenez vos commerces de proximité !`,
+      theme: 'Local & Proximité',
+      text: `Fier d'entreprendre et de valoriser le savoir-faire local à ${city}. Soutenez les commerces et indépendants de votre région !`,
       hashtags: [`#${city.replace(/\s+/g, '')}`, '#CommerceDeProximite', '#EntrepreneursLocaux', '#ConsommerLocal'],
     },
     {
       id: 9,
-      theme: 'Offre du moment',
-      text: `Une surprise vous attend chez ${name} cette semaine... Venez nous rendre visite et profitez d'un accueil privilégié !`,
-      hashtags: ['#OffreSpeciale', '#Surprise', '#BonPlan', `#${name.replace(/\s+/g, '')}`],
+      theme: 'Présentation de l’offre',
+      text: `Vous avez un projet en lien avec ${mainOffer} ? Toute l'équipe de ${name} est à votre disposition pour vous conseiller avec bienveillance.`,
+      hashtags: ['#ConseilPersonnalise', '#EcouteActive', `#${name.replace(/\s+/g, '')}`],
     },
     {
       id: 10,
       theme: 'Weekend Mood',
-      text: `Mode week-end activé ! Rendez-vous chez ${name} pour recharger les batteries et savourer l'instant présent.`,
-      hashtags: ['#WeekendVibes', '#Detente', `#${city.replace(/\s+/g, '')}`, '#BienEtre'],
+      text: `Fin de semaine chez ${name} ! Prenez le temps de vous reposer et préparez vos projets avec sérénité à ${city}.`,
+      hashtags: ['#WeekendVibes', '#Detente', `#${city.replace(/\s+/g, '')}`],
     },
   ];
 
@@ -293,155 +300,157 @@ export function generateLocalBusinessKit(input: BusinessInput): BusinessKit {
   const reels: ReelItem[] = [
     {
       id: 1,
-      title: 'Le Avant / Après Choc',
-      hook: `« Tu fais encore cette erreur quand tu choisis ton ${input.activity.toLowerCase()} ? »`,
-      concept: `Montrer une situation désastreuse (ou un travail mal fait) versus le résultat impeccable chez ${name}.`,
+      title: 'Le Problème Résolu',
+      hook: `« Si tu fais partie de ${targetAudience} à ${city}, écoute bien ce conseil sur ${mainOffer}... »`,
+      concept: `Vidéo pédagogique directe qui aborde le besoin clé de ${targetAudience} et montre comment ${name} y répond avec rigueur.`,
       flow: [
         '00:00 - 00:03 : Plan serré avec texte d\'accroche choc et son tendance.',
-        `00:03 - 00:08 : Démonstration rapide du problème classique : ${context.painPoints[0]}.`,
-        `00:08 - 00:15 : Révélation dynamique du résultat chez ${name} avec transition cut rythmée.`,
-        '00:15 - 00:20 : Plan face caméra ou texte invitant à enregistrer la vidéo.',
+        `00:03 - 00:08 : Présentation claire de la difficulté rencontrée couramment par ${targetAudience}.`,
+        `00:08 - 00:15 : Démonstration de la solution concrète apportée par ${name} pour ${mainOffer}.`,
+        '00:15 - 00:20 : Appel à l\'action invitant à poser une question en commentaire.',
       ],
-      cta: `« Abonne-toi à ${name} pour d'autres astuces à ${city} ! »`,
+      cta: `« Abonne-toi à ${name} pour d'autres conseils pratiques à ${city} ! »`,
     },
     {
       id: 2,
       title: '24h dans les coulisses',
-      hook: `« Voici ce qui se passe avant que nos premiers clients n'arrivent chez ${name}... »`,
-      concept: `ASMR visuel et sonore des préparatifs matinaux pour montrer le professionnalisme.`,
+      hook: `« Voici comment nous préparons chaque prestation de ${mainOffer} chez ${name}... »`,
+      concept: `Présentation soignée des étapes de préparation pour illustrer la méthode de travail et le sérieux.`,
       flow: [
-        '00:00 - 00:02 : Ouverture de la porte ou allumage des lumières (bruit satisfaisant).',
-        `00:02 - 00:08 : Série de plans cuts rapides de 1 seconde sur les outils et ${context.vocabulary[0]}.`,
-        '00:08 - 00:13 : Sourire de l’équipe prêt à accueillir les clients.',
+        '00:00 - 00:02 : Plan d\'ouverture sur l\'espace de travail ou les outils.',
+        `00:02 - 00:08 : Plans rythmés de quelques secondes montrant les étapes clés de ${mainOffer}.`,
+        '00:08 - 00:13 : Vérification minutieuse et soin apporté aux finitions.',
         `00:13 - 00:18 : Texte final avec localisation : ${city}.`,
       ],
-      cta: `« Dis-nous en commentaire à quelle heure commence ta journée ! »`,
+      cta: `« Dis-nous en commentaire quel aspect de notre travail te rend le plus curieux ! »`,
     },
     {
       id: 3,
-      title: 'Les 3 secrets que personne ne vous dit',
-      hook: `« 3 choses indispensables à savoir absolument sur ton ${input.activity.toLowerCase()} en 2026. »`,
-      concept: `Vidéo pédagogique face caméra ou voix-off avec sous-titres animés grand format.`,
+      title: 'Les 3 erreurs classiques à éviter',
+      hook: `« 3 erreurs fréquentes à éviter absolument quand vous cherchez ${mainOffer} à ${city}. »`,
+      concept: `Vidéo éducative face caméra ou voix-off apportant une vraie valeur d'expert à ${targetAudience}.`,
       flow: [
-        '00:00 - 00:03 : Hook avec geste de la main et texte en surbrillance.',
-        `00:03 - 00:07 : Point n°1 : ${context.painPoints[1]} et comment y remédier.`,
-        `00:07 - 00:12 : Point n°2 : L'importance de privilégier ${context.vocabulary[1]}.`,
-        `00:12 - 00:18 : Point n°3 : Pourquoi faire confiance à un professionnel certifié comme ${name}.`,
+        '00:00 - 00:03 : Hook visuel avec geste de la main et titre contrasté.',
+        '00:03 - 00:07 : Erreur n°1 : Se précipiter sans définir clairement ses priorités.',
+        '00:07 - 00:12 : Erreur n°2 : Négliger la clarté et la transparence du prestataire.',
+        `00:12 - 00:18 : La bonne démarche : échanger directement avec une équipe à l'écoute comme ${name}.`,
       ],
-      cta: `« Enregistre ce Reel pour ne pas le perdre ! »`,
+      cta: `« Enregistre ce Reel pour l'avoir sous la main au moment où tu en auras besoin ! »`,
     },
     {
       id: 4,
-      title: 'POV : Tu viens enfin tester notre adresse',
-      hook: `« POV : Tu as enfin décidé d'arrêter de procrastiner et tu passes chez ${name} à ${city} 🤩 »`,
-      concept: `Caméra subjective (vue du client) qui franchit la porte, découvre les lieux et repart ravi.`,
+      title: 'Ce qui fait notre différence',
+      hook: differentiator
+        ? `« Pourquoi nos clients choisissent ${name} : ${differentiator} »`
+        : `« Pourquoi faire appel à ${name} pour ${mainOffer} à ${city} ? »`,
+      concept: `Mise en avant sincère des valeurs, de l'accueil et du savoir-faire de l'entreprise.`,
       flow: [
-        '00:00 - 00:03 : Pousse la porte d\'entrée avec ambiance chaleureuse.',
-        '00:03 - 00:09 : Prise en charge immédiate avec le sourire et début de la prestation.',
-        '00:09 - 00:14 : Gros plan sur le rendu final impeccable.',
-        '00:14 - 00:17 : Le client qui repart avec satisfaction.',
+        '00:00 - 00:03 : Présentation conviviale face caméra ou plan d\'ambiance.',
+        `00:03 - 00:09 : Explication concrète de nos engagements pour ${targetAudience}.`,
+        `00:09 - 00:14 : Zoom sur la qualité d'exécution de ${mainOffer}.`,
+        '00:14 - 00:17 : Invitation au dialogue.',
       ],
-      cta: `« Tague la personne qui doit t'accompagner lors de ta prochaine visite ! »`,
+      cta: `« Écris-nous directement par WhatsApp pour toute information ! »`,
     },
     {
       id: 5,
-      title: 'Défi / Réponse à un commentaire client',
-      hook: `« On m'a dit : "Impossible d'avoir un service de qualité à ce prix à ${city} !" Regardez bien. »`,
-      concept: `Prendre un scepticisme réel et le déconstruire preuves à l'appui avec fierté.`,
+      title: 'Comment nous contacter facilement',
+      hook: `« Tu as un besoin concernant ${mainOffer} ? Voici la méthode la plus rapide à ${city}. »`,
+      concept: `Tutoriel ultra-simple montrant comment poser sa question ou demander un devis sans prise de tête.`,
       flow: [
-        '00:00 - 00:03 : Capture d\'écran ou sticker question au début.',
-        `00:03 - 00:10 : Démonstration concrète de la rigueur de ${name} : ${context.valueProps[0]}.`,
-        `00:10 - 00:15 : Récapitulatif de l'offre transparente sans frais cachés.`,
-        '00:15 - 00:20 : Clin d\'œil et appel à l\'action.',
+        '00:00 - 00:03 : Capture d\'écran ou geste montrant le profil et le lien en bio.',
+        `00:03 - 00:10 : Démonstration du message type à envoyer pour présenter votre besoin.`,
+        '00:10 - 00:15 : Garantie d\'une réponse rapide, personnalisée et bienveillante.',
+        '00:15 - 00:20 : Rappel de l\'adresse et des canaux d\'échange.',
       ],
-      cta: `« Viens juger par toi-même, le lien WhatsApp est dans notre bio ! »`,
+      cta: `« Retrouve le lien direct dans notre bio pour nous écrire ! »`,
     },
   ];
 
   // 4. Generate WhatsApp Customer Service Templates
   const whatsapp: WhatsAppMessages = {
-    welcome: `${toneData.greeting} *${name}* à ${city} ! 🌟\n\nMerci pour votre message. Nous sommes ravis de vous compter parmi nous.\n\nComment pouvons-nous vous aider aujourd'hui ?\n1️⃣ Prendre un rendez-vous / commander\n2️⃣ Connaître nos tarifs et formules\n3️⃣ Poser une question spécifique\n\n_Répondez simplement avec votre besoin, nous vous répondons dans les plus brefs délais !_ ✨`,
+    welcome: `${toneData.greeting} *${name}* à ${city} ! 🌟\n\nMerci pour votre message. Nous accompagnons ${targetAudience} pour tout ce qui concerne *${mainOffer}*.\n\nComment pouvons-nous vous aider aujourd'hui ?\n1️⃣ Obtenir des informations sur nos prestations\n2️⃣ Demander un devis ou une estimation personnalisée\n3️⃣ Poser une question spécifique\n\n_Indiquez-nous votre besoin, nous vous répondrons avec grand plaisir !_ ✨`,
 
-    pricing: `Bonjour ! Voici le détail de nos prestations et tarifs chez *${name}* :\n\n✨ Formules principales :\n• Formule Découverte : à partir de nos tarifs habituels\n• Formule Complète (Recommandée) : comprend ${context.vocabulary[0]} et ${context.vocabulary[1]}\n• Formule Sur-Mesure : adaptée à vos attentes précises\n\n💡 _Nos prix sont transparents et incluent toute notre expertise et notre garantie de satisfaction._\n\nSouhaitez-vous un devis ou une estimation précise selon votre situation ?`,
+    pricing: `Bonjour ! Chez *${name}*, nos tarifs sont clairs, transparents et établis sur-mesure selon vos besoins précis pour *${mainOffer}*.\n\n💡 Afin de vous donner le tarif exact sans mauvaise surprise :\n• Pouvez-vous nous préciser en quelques mots votre demande ?\n• Quel est votre délai souhaité ?\n\nNous vous répondrons immédiatement avec une proposition claire et adaptée !`,
 
-    availability: `Bonjour ! C'est bien disponible chez *${name}* ! ✅\n\n📍 Nous sommes situés à ${city}.\n⏰ Nos disponibilités cette semaine :\n• Mercredi : créneaux encore ouverts\n• Vendredi & Samedi : forte demande, réservation vivement conseillée\n\nQuel jour et quelle heure vous conviendraient le mieux pour réserver ?`,
+    availability: `Bonjour ! Oui tout à fait, nous pouvons répondre à votre demande pour *${name}* à ${city} ! ✅\n\n📍 Prestations : ${mainOffer}\n\nQuel jour et quel créneau horaire vous conviendraient le mieux pour échanger ou démarrer ?`,
 
-    followUp: `Bonjour ! J'espère que vous passez une excellente journée.\n\nJe reviens vers vous suite à votre récent message concernant nos services chez *${name}*. Avez-vous eu le temps de regarder notre proposition ?\n\nSi vous avez la moindre question ou besoin d'ajustement, je reste à votre entière disposition ici sur WhatsApp ! 😊`,
+    followUp: `Bonjour ! J'espère que vous passez une excellente journée.\n\nJe me permets de revenir vers vous concernant votre demande pour *${mainOffer}* chez *${name}*. Avez-vous eu le temps d'y réfléchir ?\n\nSi vous avez la moindre interrogation, je reste à votre entière disposition ici sur WhatsApp ! 😊`,
 
-    afterSale: `Bonjour ! Un petit message de toute l'équipe de *${name}* pour prendre de vos nouvelles suite à votre passage chez nous à ${city} ! 🎉\n\nTout s'est bien passé pour vous ? Êtes-vous satisfait(e) du résultat ?\n\nVotre avis compte énormément pour nous. N'hésitez pas à nous laisser un petit mot ou à nous recommander à vos proches ! ✨`,
+    afterSale: `Bonjour ! Un petit message de l'équipe de *${name}* pour prendre de vos nouvelles à ${city} ! 🎉\n\nTout s'est bien passé pour vous ? Êtes-vous satisfait(e) de notre prestation pour *${mainOffer}* ?\n\nVotre avis compte énormément pour nous : n'hésitez pas à nous faire part de vos impressions ou suggestions d'amélioration ! ✨`,
   };
 
   // 5. Generate Marketing Arsenal (Slogans, Ads, Promos, Bio)
   const slogans = [
-    `${name} : L'excellence de ${input.activity.toLowerCase()} à ${city}.`,
-    `Moins de tracas, plus de résultats avec ${name}.`,
-    `Votre satisfaction, notre seule exigence au quotidien.`,
-    `${name} — Le choix évident pour votre confort à ${city}.`,
-    `Passez au niveau supérieur : découvrez la différence ${name}.`,
+    `${name} : La référence pour ${mainOffer} à ${city}.`,
+    `Spécialement pensé pour répondre aux attentes de ${targetAudience}.`,
+    `${name} — ${differentiator ? differentiator.charAt(0).toUpperCase() + differentiator.slice(1) : 'L\'écoute, la proximité et le savoir-faire à ' + city}.`,
+    `Votre satisfaction, notre priorité absolue pour ${mainOffer}.`,
+    `${name} — L'adresse de confiance pour vos projets à ${city}.`,
   ];
 
   const promoOffers: PromoOffer[] = [
     {
-      title: 'Offre Bienvenue Nouveaux Clients',
-      deal: '-15% sur votre première visite ou 1 prestation découverte offerte',
-      condition: 'Valable pour toute première commande ou réservation ce mois-ci.',
-      pitch: `Vous ne nous connaissez pas encore ? C'est le moment idéal pour tester ${name} avec une réduction exclusive réservée aux nouveaux clients de ${city}.`,
+      title: 'Offre Découverte & Premier Contact',
+      deal: 'Bilan personnalisé ou premier échange offert sans engagement',
+      condition: 'Valable pour toute première prise de contact sur nos prestations.',
+      pitch: `Vous découvrez ${name} à ${city} ? Bénéficiez d'une écoute attentive pour définir la solution la plus adaptée à vos besoins en ${mainOffer}.`,
     },
     {
-      title: 'Pack Flash Duo / Parrainage',
-      deal: '1 cadeau surprise ou remise spéciale pour vous et votre proche',
-      condition: 'Venez à deux ou recommandez un ami qui réserve chez nous.',
-      pitch: `Partagez la bonne adresse de ${city} ! Quand vous parrainez un proche, vous gagnez tous les deux.`,
+      title: 'Formule Recommandation / Parrainage',
+      deal: 'Un avantage spécial accordé à vous et à la personne recommandée',
+      condition: 'Lorsque vous recommandez nos services à un proche ou un collègue.',
+      pitch: `Chez ${name}, la confiance de nos clients est notre plus belle réussite. Nous remercions chaleureusement ceux qui nous recommandent à ${city}.`,
     },
     {
-      title: 'Offre Spéciale Mi-Semaine',
-      deal: 'Avantage exclusif du mardi au jeudi',
-      condition: 'Sur réservation préalable avant mercredi midi.',
-      pitch: `Évitez la foule du week-end et profitez d'un créneau calme avec une attention personnalisée maximale chez ${name}.`,
+      title: 'Accompagnement Sur-Mesure',
+      deal: 'Proposition personnalisée calibrée pour ' + targetAudience,
+      condition: 'Sur demande et échange préalable pour cerner vos contraintes.',
+      pitch: `Parce que chaque situation est unique, nous adaptons ${mainOffer} pour vous offrir le meilleur équilibre entre qualité, réactivité et budget.`,
     },
   ];
 
   const adCopies: AdCopy[] = [
     {
-      angle: 'Résolution de Problème (Direct & Efficace)',
-      headline: `Vous en avez assez de ${context.painPoints[0]} à ${city} ?`,
-      body: `Chez ${name}, nous savons à quel point votre temps et votre argent sont précieux. C'est pourquoi nous avons mis en place une solution simple, rapide et garantie pour vous offrir ${context.valueProps[0]}. Ne laissez plus traîner ce souci.`,
-      cta: `👉 Cliquez ici pour réserver votre place en 30 secondes.`,
+      angle: 'Résolution de Problème & Clarté',
+      headline: `Vous recherchez une solution fiable pour ${mainOffer} à ${city} ?`,
+      body: `Chez ${name}, nous savons que ${targetAudience} a besoin de solutions concrètes et transparentes. Nous mettons notre savoir-faire à votre service pour vous faire gagner du temps et vous apporter entière satisfaction.${diffSentence}`,
+      cta: `👉 Cliquez ici pour nous présenter votre besoin en 30 secondes.`,
     },
     {
-      angle: 'Preuve Sociale & Confiance',
-      headline: `Pourquoi nos clients à ${city} ne jurent plus que par ${name} ?`,
-      body: `Ce n'est pas un hasard si nos habitués reviennent chaque semaine. Entre ${context.vocabulary[0]} et un service aux petits soins, nous mettons tout notre cœur pour dépasser vos attentes. Rejoignez la communauté des clients comblés.`,
-      cta: `📲 Écrivez-nous directement sur WhatsApp pour vérifier nos disponibilités.`,
+      angle: 'Transparence & Accompagnement',
+      headline: `Pourquoi faire appel à ${name} pour votre projet ?`,
+      body: `Un accompagnement personnalisé, une communication directe et une attention constante portée à la qualité de ${mainOffer}. Rejoignez les clients de ${city} qui choisissent la simplicité et la confiance.`,
+      cta: `📲 Écrivez-nous directement sur WhatsApp pour en discuter.`,
     },
     {
-      angle: 'Offre Irrésistible & Urgence',
-      headline: `Offre Flash : -15% chez ${name} (Valable pour les 15 premiers)`,
-      body: `Pour fêter ce mois-ci, nous offrons une remise exceptionnelle à tous ceux qui réservent avant dimanche. Profitez de ${context.valueProps[1]} à prix tout doux avant que tous les créneaux ne soient complets !`,
-      cta: `⚡ Réclamez votre code promo exclusif en cliquant ici.`,
+      angle: 'Prise de Contact Directe',
+      headline: `Un projet en tête ? Échangeons dès aujourd'hui chez ${name}`,
+      body: `Nous sommes disponibles à ${city} pour répondre à toutes vos interrogations sur ${mainOffer}. Prenez contact sans engagement pour recevoir une réponse rapide et sur-mesure.`,
+      cta: `⚡ Envoyez-nous un message pour démarrer l'échange.`,
     },
     {
       angle: 'Fierté Locale & Proximité',
-      headline: `La nouvelle référence de ${input.activity.toLowerCase()} s'installe à ${city}`,
-      body: `Soutenez les artisans et créateurs qui font bouger votre ville. Chez ${name}, chaque client est accueilli comme un membre de la famille avec un vrai savoir-faire artisanal.`,
-      cta: `📍 Découvrez notre adresse et passez nous dire bonjour !`,
+      headline: `Votre spécialiste de ${mainOffer} à ${city}`,
+      body: `Soutenez les initiatives et le savoir-faire local de votre ville. Chez ${name}, chaque client bénéficie d'une attention humaine et d'une rigueur professionnelle sans intermédiaire.`,
+      cta: `📍 Découvrez nos prestations et contactez-nous dès aujourd'hui !`,
     },
     {
-      angle: 'Transformation / Avant-Après',
-      headline: `Et si vous changiez enfin les choses aujourd'hui ?`,
-      body: `Vous méritez ce qu'il y a de mieux pour ${context.vocabulary[1]}. Faites le premier pas vers une vraie transformation avec l'accompagnement personnalisé de ${name}.`,
-      cta: `💬 Envoyez « JE VEUX » en message privé pour démarrer.`,
+      angle: 'Démarrez sereinement',
+      headline: `Passez à l'étape suivante avec l'accompagnement de ${name}`,
+      body: `Ne laissez plus traîner vos démarches. Faites le choix d'un accompagnement sérieux pour ${mainOffer}, conçu sur-mesure pour ${targetAudience}.`,
+      cta: `💬 Envoyez-nous un message privé pour réserver votre créneau.`,
     },
   ];
 
-  const professionalDescription = `${name} est une référence locale en ${input.activity.toLowerCase()} établie à ${city}. Guidée par des valeurs de rigueur, de qualité et de bienveillance, notre structure s'adresse à ${context.targetAudience} en quête de ${context.valueProps[0]}. Que ce soit pour un besoin ponctuel ou un accompagnement durable, nous mettons notre expertise et notre écoute au service de votre entière satisfaction. Rendez-nous visite à ${city} ou contactez notre équipe pour un conseil personnalisé.`;
+  const professionalDescription = `${name} propose des prestations spécialisées en ${mainOffer} à ${city}. Conçue pour répondre aux attentes précises de ${targetAudience}, notre structure s'appuie sur des valeurs d'écoute, de transparence et d'exigence.${diffSentence} Que ce soit pour un besoin ponctuel ou un projet régulier, nous mettons notre expertise au service de votre satisfaction. Prenez contact avec nous à ${city} pour échanger sur vos attentes.`;
 
   const instagramBio = {
-    line1: `📍 ${city} | Spécialiste ${input.activity}`,
-    line2: `✨ ${context.valueProps[0]}`,
-    line3: `🔥 Offre du moment : ${promoOffers[0].deal}`,
-    cta: `👇 Prenez contact ou réservez en 1 clic :`,
-    formatted: `📍 ${city} | Spécialiste ${input.activity}\n✨ ${context.valueProps[0]}\n🔥 Offre du moment : ${promoOffers[0].deal}\n👇 Prenez contact ou réservez en 1 clic :`,
+    line1: `📍 ${city} | ${input.activity}`,
+    line2: `✨ ${mainOffer.slice(0, 45)}`,
+    line3: differentiator ? `💎 ${differentiator.slice(0, 45)}` : `🎯 Pour : ${targetAudience.slice(0, 35)}`,
+    cta: `👇 Contactez-nous en DM ou WhatsApp :`,
+    formatted: `📍 ${city} | ${input.activity}\n✨ ${mainOffer.slice(0, 45)}\n${differentiator ? `💎 ${differentiator.slice(0, 45)}` : `🎯 Pour : ${targetAudience.slice(0, 35)}`}\n👇 Contactez-nous en DM ou WhatsApp :`,
   };
 
   // 6. Generate 7-Day Content Calendar
@@ -450,57 +459,57 @@ export function generateLocalBusinessKit(input: BusinessInput): BusinessKit {
       day: 'Lundi',
       theme: 'Présentation & Vision',
       type: 'Post Image / Carrousel',
-      focus: 'Présenter l\'équipe, l\'histoire de la marque et donner de l\'énergie pour la semaine.',
-      actionIdea: `Publier une photo nette de votre espace de travail ou de vous-même avec l'histoire de la création de ${name} à ${city}.`,
-      exampleHook: `« Pourquoi nous avons ouvert nos portes à ${city} : notre histoire en 3 photos. »`,
+      focus: `Présenter l'équipe, la mission de ${name} et donner de l'énergie pour la semaine.`,
+      actionIdea: `Publier une photo nette de votre espace de travail ou de vous-même avec la vision de ${name} pour ${mainOffer} à ${city}.`,
+      exampleHook: `« Pourquoi nous proposons ${mainOffer} à ${city} : notre engagement en 3 points. »`,
     },
     {
       day: 'Mardi',
-      theme: 'Conseil & Valeur Gratuite',
+      theme: 'Conseil & Valeur Pratique',
       type: 'Carrousel ou Reel Court',
-      focus: 'Donner une astuce experte que votre client peut appliquer pour résoudre un problème.',
-      actionIdea: `Partager un conseil pratique sur ${context.vocabulary[0]} pour éviter ${context.painPoints[1]}.`,
-      exampleHook: `« L'erreur n°1 que font 90% des gens quand ils cherchent un ${input.activity.toLowerCase()}. »`,
+      focus: `Donner une astuce concrète que ${targetAudience} peut appliquer pour simplifier son quotidien.`,
+      actionIdea: `Partager un conseil pratique et honnête en lien direct avec ${mainOffer}.`,
+      exampleHook: `« Le conseil indispensable à connaître si vous recherchez ${mainOffer} à ${city}. »`,
     },
     {
       day: 'Mercredi',
-      theme: 'Focus Produit / Service Star',
+      theme: 'Focus Produit / Service',
       type: 'Photo Détail / Vidéo Démo',
-      focus: 'Mettre en valeur le produit ou la prestation la plus rentable ou la plus appréciée.',
-      actionIdea: `Faire un zoom sur les finitions, la texture ou le processus de fabrication de ${name}.`,
-      exampleHook: `« Pourquoi tout le monde nous demande cette prestation en ce moment ? »`,
+      focus: `Mettre en valeur le produit ou la prestation clé (${mainOffer}) et son utilité pour ${targetAudience}.`,
+      actionIdea: `Faire un zoom sur la méthode de travail, la réalisation concrète et le soin apporté.`,
+      exampleHook: `« En quoi notre approche de ${mainOffer} répond précisément à vos besoins ? »`,
     },
     {
       day: 'Jeudi',
-      theme: 'Témoignage & Preuve Sociale',
-      type: 'Story + Post Capture d\'avis',
-      focus: 'Rassurer les indécis grâce aux mots d\'un client satisfait.',
-      actionIdea: `Partager la capture d'écran d'un message WhatsApp de remerciement reçu cette semaine.`,
-      exampleHook: `« Le message reçu ce matin qui nous a donné le sourire pour la journée ! »`,
+      theme: 'Preuve de Savoir-Faire & Avis Réels',
+      type: 'Story + Post Transparence',
+      focus: 'Valoriser les véritables retours clients ou partager une méthode de travail rigoureuse.',
+      actionIdea: `Partager la capture d'un vrai message de remerciement reçu ou expliquer vos engagements de qualité.`,
+      exampleHook: `« La satisfaction de nos clients sur nos prestations : les coulisses de notre engagement. »`,
     },
     {
       day: 'Vendredi',
-      theme: 'Offre Week-end / Urgence',
+      theme: 'Organisation & Anticipation',
       type: 'Post Annonce + Stories Rappel',
-      focus: 'Déclencher les réservations et les commandes immédiates avant le week-end.',
-      actionIdea: `Lancer l'offre du week-end : ${promoOffers[0].deal} pour les réservations prises aujourd'hui.`,
-      exampleHook: `« Bon plan week-end : seulement 5 créneaux encore ouverts chez ${name} ! »`,
+      focus: `Inviter ${targetAudience} à anticiper ses commandes ou réservations avant le week-end.`,
+      actionIdea: `Rappeler les disponibilités et les délais pour ${mainOffer} chez ${name} à ${city}.`,
+      exampleHook: `« Vous avez un projet pour cette semaine ou la suivante ? Parlons-en avant vendredi soir ! »`,
     },
     {
       day: 'Samedi',
-      theme: 'Contenu Interactif & Sondage',
+      theme: 'Contenu Interactif & Échange',
       type: 'Story Sondage / Quizz',
-      focus: 'Faire participer la communauté et créer de la complicité.',
-      actionIdea: `Lancer un vote « Tu préfères Option A ou Option B ? » en rapport avec votre activité.`,
-      exampleHook: `« À vous de trancher le grand débat de la semaine chez ${name} ! »`,
+      focus: 'Créer de la proximité avec la communauté et recueillir leurs avis.',
+      actionIdea: `Lancer une question ou un sondage sur les attentes de ${targetAudience} concernant ${mainOffer}.`,
+      exampleHook: `« Quel est votre critère n°1 pour choisir ${mainOffer} ? Donnez votre avis chez ${name} ! »`,
     },
     {
       day: 'Dimanche',
-      theme: 'Communauté & Coulisses Détente',
+      theme: 'Coulisses & Préparation',
       type: 'Photo Ambiance / Bilan',
-      focus: 'Humaniser la marque, remercier les clients et préparer le lundi.',
-      actionIdea: `Partager une photo conviviale de repos ou de préparation de la semaine à venir.`,
-      exampleHook: `« Fin d'une semaine intense chez ${name}. Merci à tous pour votre fidélité ! »`,
+      focus: 'Humaniser la marque, remercier les personnes qui vous soutiennent et préparer la semaine à venir.',
+      actionIdea: 'Partager une photo conviviale de préparation de la semaine à venir.',
+      exampleHook: `« Fin de semaine chez ${name}. Merci à tous pour votre confiance et à demain pour de nouveaux projets ! »`,
     },
   ];
 
@@ -520,6 +529,6 @@ export function generateLocalBusinessKit(input: BusinessInput): BusinessKit {
       instagramBio,
     },
     calendar,
-    engineNote: 'Généré par le Moteur Local Intelligent BizPilot V1 (Architecture prête pour API distante sans coût d\'API actuel).',
+    engineNote: 'Généré par le Moteur Intelligent BizPilot V1.1 (Personnalisation avancée & Véracité garantie).',
   };
 }
